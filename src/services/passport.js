@@ -1,6 +1,7 @@
 const passport = require("passport");
 const InstagramStrategy = require("passport-instagram").Strategy;
 const User = require("../models/user.js");
+require("dotenv").config()
 
 passport.use(
   new InstagramStrategy(
