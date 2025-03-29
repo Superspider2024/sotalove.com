@@ -3,9 +3,13 @@ const app=express()
 const apex= require("./src/routes/apex.js")
 const auth= require('./src/routes/auth.js')
 const connect=require("./src/config/mongodb.js")
+const cors = require('cors');
 require('dotenv').config()
 PORT=process.env.PORT
 connect()
+app.use(cors())
+app.use(express.json())
+
 app.use('/',apex)
 app.use('/auth',auth)
 
