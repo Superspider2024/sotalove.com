@@ -8,6 +8,6 @@ const schoolSchema=mongoose.Schema({
     joined:{type:Date,default:Date.now()}
 })
 
-const User= mongoose.model("Users",userSchema)
+const School= mongoose.model("Schools",schoolSchema)
 
-module.exports=User;
+module.exports=School;
