@@ -3,7 +3,8 @@ const app=express()
 const apex= require("./src/routes/apex.js")
 const auth= require('./src/routes/auth.js')
 const connect=require("./src/config/mongodb.js")
-PORT=3000
+require('dotenv').config()
+PORT=process.env.PORT
 connect()
 app.use('/',apex)
 app.use('/auth',auth)
