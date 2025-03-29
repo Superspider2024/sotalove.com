@@ -2,7 +2,7 @@
 
 ## Overview
 
-- SatoLove is a high school dating app where users can sign up and log in exclusively through their Instagram accounts. This backend handles authentication, user management, and core app functionalities.
+- SotaLove is a high school app where users can sign up and log in exclusively through their Social media accounts. This backend handles authentication, user management, and core app functionalities.
 
 ## Tech Stack
 
@@ -12,7 +12,7 @@
 
 - Passport.js - Authentication
 
-- Instagram OAuth - User authentication
+- Social Media OAuth - User authentication
 
 - JWT - Session handling
 
