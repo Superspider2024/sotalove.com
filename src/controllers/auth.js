@@ -92,5 +92,38 @@ const authorize = async(req,res)=>{
     }
 }
 
+const deleteuser = async(req,res)=>{
+    try {
+        const { username } = req.body;
+        if (!username) {
+            return res.status(400).json({ error: "Instagram ID is required" });
+        }
 
-module.exports={signup,login,complete,authentic,authorize,completepage,rediretsuccess}
+
+        const result = await User.deleteOne({ username });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json({ message: "User data deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+const deletepage =async(req,res)=>{
+    try{
+        res.status(200).json({
+            "Message":"To delete your user data please send a POST request to https://sotalove.up.railway.app/auth/deleteuser with the reust body containnig a 'username' property which holds the username your instagram username you signed up with.Thanks!",
+            "URL":"https://sotalove.up.railway.app/auth/deleteuser",
+            "contact":"diginalrogue@gmail.com"
+        })
+    }catch(e){
+        console.log("Error at 'deletepage' controller in router 'auth': ",e.message)
+        res.status(500).json("Issue loading up page!")
+    }
+}
+
+
+module.exports={signup,login,complete,authentic,authorize,completepage,rediretsuccess,deleteuser}

@@ -1,6 +1,6 @@
 const express= require("express")
 const router=express.Router()
-const {login,signup,complete,authentic,authorize,completepage,rediretsuccess}= require("../controllers/auth.js")
+const {login,signup,complete,authentic,authorize,completepage,rediretsuccess,deleteuser}= require("../controllers/auth.js")
 const passport = require("passport");
 const InstagramStrategy = require("passport-instagram").Strategy;
 const axios = require("axios");
@@ -14,7 +14,7 @@ router.get("/instagram/callback",passport.authenticate("instagram", {session:fal
 router.get("/redirectsuccess",rediretsuccess)
 router.post("/complete",complete)
 router.get("/completepage",completepage)
-  
+router.post("/deleteuser",deleteuser)
 
 
 module.exports=router;
