@@ -54,7 +54,7 @@ const completepage= async(req,res)=>{
 
 const authentic = async(req,res)=>{
     try{
-        await passport.authenticate("instagram", { scope: ["user_profile"] })
+        passport.authenticate("instagram", { scope: ["user_profile"] })
         res.status(200).send("The instagram 0Auth stage 1 is a success!")
     
     }catch(e){
