@@ -126,4 +126,4 @@ const deletepage =async(req,res)=>{
 }
 
 
-module.exports={signup,login,complete,authentic,authorize,completepage,rediretsuccess,deleteuser}
+module.exports={signup,login,complete,authentic,authorize,completepage,rediretsuccess,deleteuser,deletepage}
