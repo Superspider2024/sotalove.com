@@ -3,11 +3,11 @@ const nodeCron=require("node-cron")
 const app=express()
 const apex= require("./src/routes/apex.js")
 const auth= require('./src/routes/auth.js')
-const ralis= require("../backend/src/routes/ralis.js")
+const ralis= require("./src/routes/ralis.js")
 const connect=require("./src/config/mongodb.js")
 const cors = require('cors');
 require('dotenv').config()
-const User = require("../backend/src/models/user.js")
+const User = require("./src/models/user.js")
 
 
 PORT=process.env.PORT
