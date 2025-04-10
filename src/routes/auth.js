@@ -8,7 +8,7 @@ const { flatmain } = require("../middleware/flat.js")
 
 router.post("/signup",signup)
 router.post("/login",login)
-router.post("/deleteuser",flatmain,deleteuser)
+router.post("/deleteuser",deleteuser)
 router.get("/deletepage",flatmain,deletepage)
 
 

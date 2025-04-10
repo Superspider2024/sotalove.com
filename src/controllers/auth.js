@@ -94,15 +94,17 @@ const login=async(req,res)=>{
 
 const deleteuser = async(req,res)=>{
     try {
-        const { username } = req.body;
+        const { username,password } = req.body;
         if (!username) {
             return res.status(400).json({ error: "Instagram ID is required" });
         }
 
-        if(username!=req.user.username){
-            return res.status(401).json("Be ashamed and delete your own account")
+        const user= await User.findOne({username})
+        
+        const please= await harsh.compare(password,user.password)
+        if(!please){
+            return res.status(401).json("PLEASE STOP DELETING PEOPLE'S STUFF!")
         }
-
 
         const result = await User.deleteOne({ username });
 
