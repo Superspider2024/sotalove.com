@@ -5,7 +5,7 @@ require('dotenv').config()
 
 const connect =async()=>{
     try{
-        const bob=await mongoose.connect(process.env.db)
+        const bob=await mongoose.connect(process.env.DB)
         if(bob){
         console.log("Successfully connected!")
         }else{
