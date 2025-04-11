@@ -78,10 +78,10 @@ const swiperight = async(req,res)=>{
 
 const swipeleft = async(req,res)=>{
     try{
-        const {user1}= req.body;
+        const {user}= req.body;
         await User.updateOne(
-            { username:user1.username, },
-            { $addToSet:{seen :username}}  
+            { username:req.body.username, },
+            { $addToSet:{seen :user.username}}  
           );
 
         res.status(201).json("SUCCESS")
