@@ -17,7 +17,8 @@ const userSchema=mongoose.Schema({
     elo:{type:Number,trim:true,default:1000},
     seen:{type:Array,trim:true},
     matches:{type:Array,trim:true},   
-    joinedAt: { type: Date, default: Date.now } 
+    joinedAt: { type: Date, default: Date.now },
+    chats:{type:Array,trim:true, lowercase:true}
 })
 
 const User= mongoose.model("Users",userSchema)

@@ -210,4 +210,63 @@ const meFind=async(req,res)=>{
     }
 }
 
-module.exports={swipeleft,swiperight,newpick,update,searchpage,searchAndFilter,meFind}
+const addChat=async(req,res)=>{
+    try{
+        const {username}= req.body;
+
+        if(username===req.user.username){
+            return res.status(400).json("Unfortunately, chatting to yourself will make a blackhole")
+        }
+
+        if(!username){
+            return res.status(400).json('Provide data!')
+        }
+        let found=null
+        let found1=null
+        Promise.all([
+            found = await User.updateOne({username:username},{$addToSet:{chats:req.user.username}}),
+            found1 = await User.updateOne({username:req.user.username},{$addToSet:{chats:username}})
+        ])
+
+        res.status(201).json({
+            chatList:found1.chats
+        })
+        
+    }catch(e){
+        res.status(400).json("Issue wit starting the chat")
+    }
+}
+
+const deleteChat=async(req,res)=>{
+    try{
+        const user= req.body.username.toLowerCase()
+
+        if(!user){
+            return res.status(400).json('Provide data!')
+        }
+        //Beware the chat data is never deleted its just deleted from the req.user's chatlist not even the recepient
+        const lol= await User.updateOne({username:req.user.username},{$pull:{'chats':user}})
+        res.status(201).json({
+            chatList:lol.chats
+        })
+    }catch(e){
+        res.status(400).json("Issue deleting chat")
+    }
+}
+
+const chatList=async(req,res)=>{
+    try{
+        const user = await User.findOne({username:req.user.username})
+        if(!user){
+            return res.status(400).json("Issues finding the needed user!")
+        }
+
+        res.status(200).json({
+            chatList:user.chats
+        })
+    }catch(e){
+        res.status(400).json("Issues getting the chatlist")
+    }
+}
+
+module.exports={swipeleft,swiperight,newpick,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList}
