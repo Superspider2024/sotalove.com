@@ -44,6 +44,7 @@ const swiperight = async(req,res)=>{
         //!!NOTE!! THE ASSUMPTION IS THAT THE FRONTEND WIIL SEND THE WHOLE USER DB OBJECT 
         
         const {user}= req.body;
+        let match=false
 
         if(user.rightUsers.includes(req.user.username)){
             Promise.all([
@@ -57,6 +58,7 @@ const swiperight = async(req,res)=>{
                 )
 
             ])
+            match=true
         }else{
 
             await User.updateOne(
@@ -65,7 +67,10 @@ const swiperight = async(req,res)=>{
             );
         }
 
-        res.status(201).json("Sucess!")
+        res.status(201).json({
+            message:"Success!",
+            match,
+        })
     }catch(e){
         res.status(400).json("ERROR: "+e.message)
     }
