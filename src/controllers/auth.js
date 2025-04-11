@@ -4,15 +4,56 @@ const harsh= require("bcrypt");
 const jwt= require("jsonwebtoken")
 require("dotenv").config()
 const {sign}= require('../services/jwt.js')
+const uploadToCloudinary = require('../services/upload.js')
 
 
 const signup=async(req,res)=>{
     try{
-    const {username,password,status,school,age,lookingFor,profilePic,gender,schoolPreference,images}= req.body;
-    if(!username || !password || !school || !age || !lookingFor || !profilePic || gender===undefined || !schoolPreference){
+    
+        let profilePic = null;
+        let images = [];
+
+        const profilePicFile = req.files?.profilePic?.[0]; 
+        if (profilePicFile) {
+            const profilePicOptions = {
+                folder: 'satolove/profiles', 
+
+                public_id: `profile-${req.body.username || 'user'}-${Date.now()}`,
+                resource_type: 'image' 
+            };
+            const profileResult = await uploadToCloudinary(profilePicFile.buffer, profilePicOptions);
+            profilePic = profileResult.secure_url; 
+        }
+    
+        const imageFiles = req.files?.images; 
+        if (imageFiles && imageFiles.length > 0) {
+          const uploadPromises = imageFiles.map(file => {
+            const imageOptions = {
+                folder: 'satolove/posts', 
+                public_id: `image-${req.body.username || 'user'}-${Date.now()}-${file.originalname.split('.')[0]}`,
+                resource_type: 'image'
+            };
+            return uploadToCloudinary(file.buffer, imageOptions);
+          });
+    
+ 
+          const imageResults = await Promise.all(uploadPromises);
+          images = imageResults.map(result => result.secure_url); 
+        }
+    const {username,password,status,school,age,lookingFor}= req.body;
+    let {gender,schoolPreference}= req.body
+    if(!username || !password || !school || !age || !lookingFor || !schoolPreference || !images || !profilePic || !gender){
         res.status(400).json("ERROR IN SIGNUP: LACKS USER INPUT! ")
         return
     }
+
+    if(gender==="male"){
+        gender=0
+    }else{
+        gender=1
+    }
+
+    schoolPreference= JSON.parse(schoolPreference)
 
 
 
