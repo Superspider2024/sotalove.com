@@ -221,36 +221,33 @@ const addChat=async(req,res)=>{
         if(!username){
             return res.status(400).json('Provide data!')
         }
-        let found=null
-        let found1=null
-        Promise.all([
-            found = await User.updateOne({username:username},{$addToSet:{chats:req.user.username}}),
-            found1 = await User.updateOne({username:req.user.username},{$addToSet:{chats:username}})
-        ])
-
+        const found = await User.findOneAndUpdate({username:username},{$addToSet:{chats:`${req.user.username.toLowerCase()}.${req.user.profilePic}`}},{new:true})
+        const found1 = await User.findOneAndUpdate({username:req.user.username},{$addToSet:{chats:`${found.username.toLowerCase()}.${found.profilePic}`}},{new:true})
+        console.log(found1)
         res.status(201).json({
             chatList:found1.chats
         })
         
     }catch(e){
-        res.status(400).json("Issue wit starting the chat")
+        res.status(400).json("Issue wit starting the chat: "+ e.message)
     }
 }
 
 const deleteChat=async(req,res)=>{
     try{
-        const user= req.body.username.toLowerCase()
+        const theOne= await User.findOne({username:req.body.username})
+        const user= `${req.body.username.toLowerCase()}.${theOne.profilePic}`
 
         if(!user){
             return res.status(400).json('Provide data!')
         }
         //Beware the chat data is never deleted its just deleted from the req.user's chatlist not even the recepient
-        const lol= await User.updateOne({username:req.user.username},{$pull:{'chats':user}})
+        const lol= await User.findOneAndUpdate({username:req.user.username},{$pull:{'chats':'undefined.undefined'}},{new:true})
         res.status(201).json({
             chatList:lol.chats
         })
     }catch(e){
-        res.status(400).json("Issue deleting chat")
+        res.status(400).json("Issue deleting chat: "+e.message)
     }
 }
 
