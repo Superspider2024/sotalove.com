@@ -18,7 +18,7 @@ router.post("/search",flatmain,searchAndFilter)
 router.get("/searchpage",flatmain,searchpage)
 
 //Data getting
-router.post("/me", flatmain,meFind);
+router.get("/me", flatmain,meFind);
 
 
 
