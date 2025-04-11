@@ -1,6 +1,6 @@
 const express= require("express")
 const router=express.Router()
-const {newpick,swipeleft,swiperight,update,searchpage,searchAndFilter}= require("../controllers/ralis.js")
+const {newpick,swipeleft,swiperight,update,searchpage,searchAndFilter,meFind}= require("../controllers/ralis.js")
 const {flatmain}= require("../middleware/flat.js")
 
 
@@ -16,6 +16,9 @@ router.post("/update",flatmain,update)
 //Search and filter
 router.post("/search",flatmain,searchAndFilter)
 router.get("/searchpage",flatmain,searchpage)
+
+//Data getting
+router.post("/me", flatmain,meFind);
 
 
 

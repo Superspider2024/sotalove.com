@@ -198,4 +198,16 @@ const searchAndFilter= async(req,res)=>{
     }
 }
 
-module.exports={swipeleft,swiperight,newpick,update,searchpage,searchAndFilter}
+const meFind=async(req,res)=>{
+    try{
+        res.status(200).json({
+            message:"Here is you",
+            user:req.user
+        })
+
+    }catch(e){
+        res.status(400).json("It wasn't found sorry!")
+    }
+}
+
+module.exports={swipeleft,swiperight,newpick,update,searchpage,searchAndFilter,meFind}
