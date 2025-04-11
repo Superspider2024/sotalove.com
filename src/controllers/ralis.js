@@ -150,7 +150,8 @@ const searchAndFilter= async(req,res)=>{
         if(status===undefined || school===undefined){
             return res.status(400).json("Plase send some actual input")
         }
-        let users= await User.find()
+        const x= req.user.gender===0?1:0;
+        let users= await User.find({gender:x})
         if(!users){
             return res.status(400).json("Database failed")
         }
@@ -184,7 +185,7 @@ const searchAndFilter= async(req,res)=>{
             return
         }
         let allNothing = users.filter(user=> user.status===status.toLowerCase())
-        allNothing=allNothing.filter(user=> user.school===school.toLowerCase()).map(user=> ({user,score:aphroditeConjecture(user,req.user)})).sort((a,b)=>b.score-a.score)
+        allNothing=allNothing.filter(user=> user.school===school.toLowerCase()&& user.username!=req.body.username).map(user=> ({user,score:aphroditeConjecture(user,req.user)})).sort((a,b)=>b.score-a.score)
         if(!allNothing){
             return res.status(400).json("Database failed")
         }
