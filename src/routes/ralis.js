@@ -1,7 +1,8 @@
 const express= require("express")
 const router=express.Router()
-const {newpick,swipeleft,swiperight,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList,findChats, findAnyone, findLastMessage}= require("../controllers/ralis.js")
+const {newpick,swipeleft,swiperight,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList,findChats, findAnyone, findLastMessage,upload}= require("../controllers/ralis.js")
 const {flatmain}= require("../middleware/flat.js")
+const {uploadFile2} = require("../middleware/multer.js")
 
 
 
@@ -28,6 +29,9 @@ router.post("/chats",flatmain,findChats)
 router.post("/findanyone",flatmain,findAnyone)
 router.post("/findlastmessage",flatmain,findLastMessage)
 
+
+//upload file
+router.post("/upload",flatmain,uploadFile2,upload)
 
 
 

@@ -23,4 +23,8 @@ const uploadFile = upload.fields([
   { name: "images", maxCount: 10 }
 ]);
 
-module.exports = uploadFile;
+const uploadFile2= upload.fields([
+  {name:"uploadFile",maxCount:1}
+])
+
+module.exports = {uploadFile,uploadFile2};

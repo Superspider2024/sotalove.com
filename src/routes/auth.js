@@ -2,7 +2,7 @@ const express= require("express")
 const router=express.Router()
 const {login,signup,deleteuser,deletepage}= require("../controllers/auth.js")
 const { flatmain } = require("../middleware/flat.js")
-const uploadFile= require('../middleware/multer.js')
+const {uploadFile}= require('../middleware/multer.js')
 
 
 //Authentication routes

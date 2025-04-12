@@ -5,6 +5,7 @@ const User= require("../models/user.js")
 const {sign}= require('../services/jwt.js')
 const Messages = require('../models/message.js')
 const Chats = require('../models/chats.js')
+const uploadToCloudinary = require("../services/upload.js")
 
 
 //SWIPING AND ALGORITHMN CODE
@@ -322,4 +323,35 @@ const findLastMessage=async(req,res)=>{
     }
 }
 
-module.exports={swipeleft,swiperight,newpick,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList,findChats,findAnyone,findLastMessage}
+const upload=async(req,res)=>{
+    try{
+        const uploadFile= req.files?.uploadFile?.[0]
+        if(!uploadFile){
+            return res.status(400).json('Im tired for this!')
+
+        }
+        if (uploadFile) {
+            const uploadOptions = {
+                folder: 'satolove/uploads', 
+
+                public_id: `image-${req.body.username || 'user'}-${Date.now()}`,
+                resource_type: 'image' 
+            };
+            const uploadResult = await uploadToCloudinary(uploadFile.buffer, uploadOptions);
+            const uploadUrl= uploadResult.secure_url
+            
+            if(!uploadUrl){
+                return res.status(400).json('Somehting broke along the way!')
+            }
+
+            res.status(201).json({
+                url:uploadUrl
+            })
+    }
+    }catch(e){
+        res.status(400).json("Uplaod denied!" + e.message)
+    }
+}
+
+
+module.exports={swipeleft,swiperight,newpick,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList,findChats,findAnyone,findLastMessage,upload}
