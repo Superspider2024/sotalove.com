@@ -1,6 +1,6 @@
 const express= require("express")
 const router=express.Router()
-const {newpick,swipeleft,swiperight,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList}= require("../controllers/ralis.js")
+const {newpick,swipeleft,swiperight,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList,findChats, findAnyone, findLastMessage}= require("../controllers/ralis.js")
 const {flatmain}= require("../middleware/flat.js")
 
 
@@ -22,6 +22,11 @@ router.get("/me", flatmain,meFind);
 router.post("/addchat",flatmain,addChat)
 router.post("/deletechat",flatmain,deleteChat)
 router.get("/chatlist",flatmain,chatList)
+
+//get chats
+router.post("/chats",flatmain,findChats)
+router.post("/findanyone",flatmain,findAnyone)
+router.post("/findlastmessage",flatmain,findLastMessage)
 
 
 

@@ -3,6 +3,8 @@ require("dotenv").config()
 const {aphroditeConjecture}= require('../utilis/newpick.js')
 const User= require("../models/user.js")
 const {sign}= require('../services/jwt.js')
+const Messages = require('../models/message.js')
+const Chats = require('../models/chats.js')
 
 
 //SWIPING AND ALGORITHMN CODE
@@ -266,4 +268,53 @@ const chatList=async(req,res)=>{
     }
 }
 
-module.exports={swipeleft,swiperight,newpick,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList}
+const findAnyone=async(req,res)=>{
+    try{
+        const {username}= req.body;
+        if(!username){
+            return res.status(400).json("PLease stop!")
+
+        }
+        const result = await User.findOne({username})
+
+        res.status(200).json({
+            user:result
+        })
+    }catch(e){
+        res.status(400).json("Issue getting this data!")
+    }
+}
+
+const findChats=async(req,res)=>{
+    try{
+        const {chatId}= req.body;
+        if(!chatId){
+            return res.status(400).json("Keep quiet!")
+        }
+
+        const fund = await Messages.findMany({chatId})
+        if(!fund){
+            return res.status(400).json("This chats does not exist!")
+        }
+    }catch(e){
+        res.status(400).json("Issue getting chats")
+    }
+}
+
+const findLastMessage=async(req,res)=>{
+    try{
+        const {chatId}= req.body;
+        const found = await Chats.findOne({chatId})
+        if(!found || !chatId){
+            return res.status(400).json("Dont waste my time man!")
+        }
+
+        res.status(200).json({
+            lastMessage:found.lastMessage
+        })
+    }catch(e){
+        res.status(400).json("Heelo there!")
+    }
+}
+
+module.exports={swipeleft,swiperight,newpick,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList,findChats,findAnyone,findLastMessage}
