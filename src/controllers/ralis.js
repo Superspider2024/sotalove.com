@@ -103,19 +103,14 @@ const update=async(req,res)=>{
         if(property==="schoolPreference" || property==="images" && typeof(value)!=Array){
             return res.status(400).json("Sent the wrong data type for the property given, please send an array")
         }
+        if(property==="username"){
+            return res.status(400).json("Can't update the username attribute")
+        }
         const newlyUpdated= await User.findOneAndUpdate({username:req.user.username},{[property]:value},{new:true})
         if(!newlyUpdated){
             return res.status(500).json("Issue updating!")
         }
 
-        if(property==="username"){
-            res.status(201).json({
-                message:`Updated the ${property} property`,
-                accesstoken: await sign(newlyUpdated),
-                user:newlyUpdated
-            })
-            return
-        }
         
         res.status(201).json({
             message:`Updated the ${property} property`,
