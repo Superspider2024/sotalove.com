@@ -221,8 +221,8 @@ const addChat=async(req,res)=>{
         if(!username){
             return res.status(400).json('Provide data!')
         }
-        const found = await User.findOneAndUpdate({username:username},{$addToSet:{chats:`${req.user.username.toLowerCase()}.${req.user.profilePic}`}},{new:true})
-        const found1 = await User.findOneAndUpdate({username:req.user.username},{$addToSet:{chats:`${found.username.toLowerCase()}.${found.profilePic}`}},{new:true})
+        const found = await User.findOneAndUpdate({username:username},{$addToSet:{chats:`${req.user.username.toLowerCase()}$${req.user.profilePic}`}},{new:true})
+        const found1 = await User.findOneAndUpdate({username:req.user.username},{$addToSet:{chats:`${found.username.toLowerCase()}$${found.profilePic}`}},{new:true})
         console.log(found1)
         res.status(201).json({
             chatList:found1.chats
@@ -236,13 +236,13 @@ const addChat=async(req,res)=>{
 const deleteChat=async(req,res)=>{
     try{
         const theOne= await User.findOne({username:req.body.username})
-        const user= `${req.body.username.toLowerCase()}.${theOne.profilePic}`
+        const user= `${req.body.username.toLowerCase()}$${theOne.profilePic}`
 
         if(!user){
             return res.status(400).json('Provide data!')
         }
         //Beware the chat data is never deleted its just deleted from the req.user's chatlist not even the recepient
-        const lol= await User.findOneAndUpdate({username:req.user.username},{$pull:{'chats':'undefined.undefined'}},{new:true})
+        const lol= await User.findOneAndUpdate({username:req.user.username},{$pull:{'chats':user}},{new:true})
         res.status(201).json({
             chatList:lol.chats
         })

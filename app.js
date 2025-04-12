@@ -1,6 +1,7 @@
 const express= require("express")
 const nodeCron=require("node-cron")
 const app=express()
+const io= require("socket.io")
 const apex= require("./src/routes/apex.js")
 const auth= require('./src/routes/auth.js')
 const ralis= require("./src/routes/ralis.js")
@@ -8,6 +9,8 @@ const connect=require("./src/config/mongodb.js")
 const cors = require('cors');
 require('dotenv').config()
 const User = require("./src/models/user.js")
+const socketHandler= require("./src/sockets/io.js")
+
 
 
 PORT=process.env.PORT
@@ -26,6 +29,11 @@ nodeCron.schedule("0 * * * *", async () => {
     await User.updateMany({}, { $set: { seen: [] } });
     console.log("✅ All users' seen lists cleared");
   });
+
+io.on("connection",(socket)=>{
+  socketHandler(socket,io)
+
+})
 
 app.listen(PORT,()=>{
     console.log("Server is running...")
