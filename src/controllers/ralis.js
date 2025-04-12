@@ -100,9 +100,7 @@ const update=async(req,res)=>{
     try{
         //FOR THE PROPETIES THAT ARE IN ARRAYS WE EXPECT THE FRONTEND TO SEND THEM AS ARRAYS!
         const {property,value}=req.body
-        if(property==="schoolPreference" || property==="images" && typeof(value)!=Array){
-            return res.status(400).json("Sent the wrong data type for the property given, please send an array")
-        }
+
         if(property==="username"){
             return res.status(400).json("Can't update the username attribute")
         }
