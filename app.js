@@ -1,43 +1,56 @@
-const express= require("express")
-const nodeCron=require("node-cron")
-const app=express()
-const io= require("socket.io")
-const apex= require("./src/routes/apex.js")
-const auth= require('./src/routes/auth.js')
-const ralis= require("./src/routes/ralis.js")
-const connect=require("./src/config/mongodb.js")
-const cors = require('cors');
-require('dotenv').config()
-const User = require("./src/models/user.js")
-const socketHandler= require("./src/sockets/io.js")
+const express = require("express");
+const http = require("http"); 
+const nodeCron = require("node-cron");
+const { Server } = require("socket.io");
+const cors = require("cors");
+require("dotenv").config();
+
+const apex = require("./src/routes/apex.js");
+const auth = require("./src/routes/auth.js");
+const ralis = require("./src/routes/ralis.js");
+const connect = require("./src/config/mongodb.js");
+const User = require("./src/models/user.js");
+const socketHandler = require("./src/sockets/io.js");
+
+const app = express();
+const server = http.createServer(app); 
 
 
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
-PORT=process.env.PORT
+const PORT = process.env.PORT;
 
 
-connect()
-app.use(cors())
-app.use(express.json())
+connect();
 
-app.use('/',apex)
-app.use('/auth',auth)
-app.use('/ralis',ralis)
+app.use(cors());
+app.use(express.json());
 
+app.use("/", apex);
+app.use("/auth", auth);
+app.use("/ralis", ralis);
+
+// Cron Job
 nodeCron.schedule("0 * * * *", async () => {
-    console.log("⏰ Hourly reset starting...");
-    await User.updateMany({}, { $set: { seen: [] } });
-    console.log("✅ All users' seen lists cleared");
-  });
+  console.log(" Hourly reset starting...");
+  await User.updateMany({}, { $set: { seen: [] } });
+  console.log(" All users' seen lists cleared");
+});
 
-io.on("connection",(socket)=>{
-  socketHandler(socket,io)
 
-})
+io.on("connection", (socket) => {
+  socketHandler(socket, io);
+});
 
-app.listen(PORT,()=>{
-    console.log("Server is running...")
-})
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 
 //http://localhost:3000/
 
