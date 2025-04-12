@@ -292,7 +292,7 @@ const findChats=async(req,res)=>{
             return res.status(400).json("Keep quiet!")
         }
 
-        const fund = await Messages.find({chatId})
+        const fund = await Messages.find({chatId}).sort({ created: -1 })
         
         if(!fund){
             return res.status(400).json("This chats does not exist!")
@@ -315,7 +315,7 @@ const findLastMessage=async(req,res)=>{
         }
 
         res.status(200).json({
-            lastMessage:found.lastMessage
+            lastMessage:found.latestMessage
         })
     }catch(e){
         res.status(400).json("Heelo there!")
