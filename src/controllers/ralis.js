@@ -292,10 +292,15 @@ const findChats=async(req,res)=>{
             return res.status(400).json("Keep quiet!")
         }
 
-        const fund = await Messages.findMany({chatId})
+        const fund = await Messages.find({chatId})
+        
         if(!fund){
             return res.status(400).json("This chats does not exist!")
         }
+
+        res.status(200).json({
+            chats:fund
+        })
     }catch(e){
         res.status(400).json("Issue getting chats")
     }
