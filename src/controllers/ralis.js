@@ -305,9 +305,9 @@ const findLastMessage=async(req,res)=>{
         const {chatId,receiver}= req.body;
         const found = await Chats.findOne({chatId})
         const read= await Messages.findOne({chatId,sender:receiver,isRead:false})
-        let isRead=false
+        let isRead=true
         if(read){
-            isRead=true
+            isRead=false
         }
         if(!found || !chatId){
             return res.status(400).json("Dont waste my time man!")
