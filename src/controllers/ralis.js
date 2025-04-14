@@ -6,6 +6,7 @@ const {sign}= require('../services/jwt.js')
 const Messages = require('../models/message.js')
 const Chats = require('../models/chats.js')
 const uploadToCloudinary = require("../services/upload.js")
+const { TopologyDescription } = require("mongodb")
 
 
 //SWIPING AND ALGORITHMN CODE
@@ -350,7 +351,31 @@ const upload=async(req,res)=>{
     }catch(e){
         res.status(400).json("Uplaod denied!" + e.message)
     }
+
+
+}
+
+const notot=async(req,res)=>{
+    try{
+        const {username}= req.body;
+        if(!username){
+            return res.status(400).json("STOP!")
+        }
+
+        const updated = await User.findOneAndUpdate({username},{tutorialSeen:true})
+
+        if(!updated){
+            return res.status(400).json("User not found")
+
+        }
+
+        res.status(201).json("Updated!")
+
+    }catch(e){
+        res.status(400).json("hanks")
+    }
 }
 
 
-module.exports={swipeleft,swiperight,newpick,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList,findChats,findAnyone,findLastMessage,upload}
+
+module.exports={swipeleft,notot,swiperight,newpick,update,searchpage,searchAndFilter,meFind,addChat,deleteChat,chatList,findChats,findAnyone,findLastMessage,upload}
