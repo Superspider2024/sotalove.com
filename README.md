@@ -2,7 +2,7 @@
 
 ## Overview
 
-- SotaLove is a high school app where users can sign up and log in exclusively through their Social media accounts. This backend handles authentication, user management, and core app functionalities.
+- Satolove is a high school dating app where people(high schoolers) from Nairobi can connect through different schools and socialise.
 
 ## Tech Stack
 
@@ -10,9 +10,7 @@
 
 - MongoDB (Mongoose) - Database
 
-- Passport.js - Authentication
-
-- Social Media OAuth - User authentication
+- socket.io - websocket connection for messaging
 
 - JWT - Session handling
 
@@ -20,11 +18,13 @@
 
 ## Features
 
-✅ Instagram OAuth Authentication
+✅ Instant messaging
 ✅ User Profile Management
 ✅ Secure Session Handling
 ✅ REST API for Frontend Integration
 ✅ Deployment-ready Configuration
+
+- Updates will be displayed from the solodeveloper __SUPERSPIDER__!!
 
 ## License
 
