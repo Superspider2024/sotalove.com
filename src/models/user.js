@@ -3,7 +3,7 @@ const mongoose= require('mongoose')
 //USERSCHEMA AND DATA MODELLING
 
 const userSchema=mongoose.Schema({
-    username: { type: String,required:true, unique:true,trim:true },//
+    username: { type: String,required:true, unique:true,trim:true,lowercase:true },//
     password:{type:String,required:true,trim:true},//
     gender:{type:Number,required:true,trim:true,enum:[0,1]},//
     status:{type:String, default:"single",trim:true, lowercase:true, enum:["single","boyfriend/girlfriend","talking","married","situationship","friends with benefits","open realtionship","dating"]},//
