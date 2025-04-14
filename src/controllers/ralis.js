@@ -304,7 +304,7 @@ const findLastMessage=async(req,res)=>{
     try{
         const {chatId,receiver}= req.body;
         const found = await Chats.findOne({chatId})
-        const read= await Messages.findOne({chatId,receiver,isRead:false})
+        const read= await Messages.findOne({chatId,sender:receiver,isRead:false})
         let isRead=false
         if(read){
             isRead=true
