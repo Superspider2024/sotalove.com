@@ -302,14 +302,20 @@ const findChats=async(req,res)=>{
 
 const findLastMessage=async(req,res)=>{
     try{
-        const {chatId}= req.body;
+        const {chatId,receiver}= req.body;
         const found = await Chats.findOne({chatId})
+        const read= await Messages.findOne({chatId,receiver,isRead:false})
+        let isRead=false
+        if(read){
+            isRead=true
+        }
         if(!found || !chatId){
             return res.status(400).json("Dont waste my time man!")
         }
 
         res.status(200).json({
-            lastMessage:found.latestMessage
+            lastMessage:found.latestMessage,
+            isRead,
         })
     }catch(e){
         res.status(400).json("Heelo there!")
