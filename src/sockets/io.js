@@ -61,6 +61,23 @@ const socketHandler = async (socket, io) => {
       });
     });
 
+    socket.on("messagesReadByReceiver",async(data)=>{
+        const chatId=data.chatId
+        const sender=data.sender.toLowerCase()
+
+        await Messages.updateMany(
+          { chatId, sender, isRead: false },
+          { $set: { isRead: true } }
+        );
+
+
+        socket.to(chatId).emit("MessagesReadToSender",{
+          sender,
+        })
+
+
+    })
+
     socket.on('disconnect', () => {
       console.log('User disconnected');
     });

@@ -6,6 +6,7 @@ const messagesSchema=mongoose.Schema({
     sender:{type:String,lowercase:true,trim:true},
     content:{type:String},
     imageTrue:{type:Boolean},
+    isRead:{type:Boolean},
     created:{type:Date,default:Date.now()}
 })
 

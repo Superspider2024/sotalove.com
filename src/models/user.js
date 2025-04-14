@@ -18,7 +18,8 @@ const userSchema=mongoose.Schema({
     seen:{type:Array,trim:true},
     matches:{type:Array,trim:true},   
     joinedAt: { type: Date, default: Date.now },
-    chats:{type:Array,trim:true, lowercase:true}
+    chats:{type:Array,trim:true, lowercase:true},
+    tutorialSeen:{type:Boolean,default:false}
 })
 
 const User= mongoose.model("Users",userSchema)
